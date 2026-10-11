@@ -3,174 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#6366f1">
-  <title>RIWAYAT LAPORAN — SIPLAH</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>S</text></svg>">
+  <meta name="theme-color" content="#f59e0b">
+  <title>Riwayat Laporan — SIPLAH</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>S</text></svg>">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      width: 100%; height: 100%; overflow: hidden;
       background-color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      -webkit-tap-highlight-color: transparent;
     }
-
-    /* ============ IFRAME ============ */
     .iframe-container {
-      width: 100%;
-      height: 100dvh;
-      overflow: hidden;
-      position: relative;
+      width: 100%; height: 100dvh; overflow: hidden; position: relative;
     }
-
     iframe {
-      display: block;
-      width: 100%;
-      height: 100dvh;
-      border: none;
-      background: white;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      display: block; width: 100%; height: 100dvh; border: none;
+      background: white; opacity: 0; transition: opacity 0.3s ease;
     }
-    iframe.loaded {
-      opacity: 1;
-    }
-
-    /* ============ LOADING ============ */
+    iframe.loaded { opacity: 1; }
     .loading {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #f8fafc;
-      z-index: 10;
-      transition: opacity 0.3s ease;
-      padding: 24px;
-      text-align: center;
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #f8fafc; z-index: 10;
+      transition: opacity 0.3s ease; padding: 24px; text-align: center;
     }
-    .loading.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
+    .loading.hidden { opacity: 0; pointer-events: none; }
     .loading-logo {
-      width: 52px;
-      height: 52px;
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
       border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-      font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 22px;
       margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
     }
-
-    .loading-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 4px;
-    }
-
-    .loading-subtitle {
-      font-size: 13px;
-      color: #64748b;
-      margin-bottom: 20px;
-    }
-
+    .loading-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+    .loading-subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
     .loading-spinner {
-      width: 28px;
-      height: 28px;
-      border: 3px solid #e2e8f0;
-      border-top-color: #6366f1;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      width: 28px; height: 28px;
+      border: 3px solid #e2e8f0; border-top-color: #f59e0b;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .loading-fallback {
-      margin-top: 22px;
-      font-size: 12px;
-      color: #94a3b8;
-      display: none;
-      line-height: 1.5;
+      margin-top: 22px; font-size: 12px; color: #94a3b8;
+      display: none; line-height: 1.5;
     }
-    .loading-fallback a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 600;
-    }
+    .loading-fallback a { color: #2563eb; text-decoration: none; font-weight: 600; }
     .loading-fallback a:hover { text-decoration: underline; }
-
-    /* ============ ERROR ============ */
     .error {
-      position: fixed;
-      inset: 0;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #f8fafc;
-      z-index: 20;
-      padding: 24px;
-      text-align: center;
+      position: fixed; inset: 0; display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #f8fafc; z-index: 20; padding: 24px; text-align: center;
     }
     .error.show { display: flex; }
-
     .error-icon {
-      width: 52px;
-      height: 52px;
-      background: #fef2f2;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #dc2626;
-      margin-bottom: 14px;
+      width: 52px; height: 52px; background: #fef2f2; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #dc2626; margin-bottom: 14px;
     }
-    .error-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 6px;
-    }
+    .error-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
     .error-msg {
-      font-size: 13px;
-      color: #64748b;
-      max-width: 320px;
-      line-height: 1.6;
-      margin-bottom: 18px;
+      font-size: 13px; color: #64748b; max-width: 320px;
+      line-height: 1.6; margin-bottom: 18px;
     }
     .error-btn {
-      padding: 10px 22px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
+      padding: 10px 22px; background: #2563eb; color: white;
+      border: none; border-radius: 8px; font-size: 13px;
+      font-weight: 600; cursor: pointer; font-family: inherit;
     }
     .error-btn:hover { background: #1d4ed8; }
   </style>
 </head>
 <body>
 
-  <!-- LOADING -->
   <div class="loading" id="loading">
     <div class="loading-logo">S</div>
     <div class="loading-title">Riwayat Laporan</div>
-    <div class="loading-subtitle">Memuat formulir...</div>
+    <div class="loading-subtitle">Memuat daftar laporan...</div>
     <div class="loading-spinner"></div>
     <div class="loading-fallback" id="fallback">
       Halaman terlalu lama dimuat?<br>
@@ -178,7 +88,6 @@
     </div>
   </div>
 
-  <!-- ERROR -->
   <div class="error" id="error">
     <div class="error-icon">
       <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -192,7 +101,6 @@
     <button class="error-btn" onclick="reloadApp()">Coba Lagi</button>
   </div>
 
-  <!-- IFRAME -->
   <div class="iframe-container">
     <iframe
       id="app"
@@ -206,26 +114,31 @@
 
   <script>
     // ============================================================
-    // ⚠️ KONFIGURASI — UBAH DI SINI
+    // KONFIGURASI
     // ============================================================
-
-    // URL Apps Script /exec terbaru
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVg9D0CjtGEkZQQtOwNIL_o8ioNDElHlDiRubLN6nH7PA0NS1exRyLAbqt0Lj14zYagA/exec';
 
-    // Halaman ini untuk apa
-    // Opsi:
-    //   { type: 'form', template: 'TRANSPORT_LOKAL' }   → Form Translok
-    //   { type: 'form', template: 'PPPK_KEAMANAN' }     → Form PPPK
-    //   { type: 'form', template: 'NON_TRANSPORT' }     → Form Non Translok
-    //   { type: 'riwayat' }                             → Halaman Riwayat
+    // ⚠️ PENTING: HARUS 'riwayat', BUKAN 'form'
     const PAGE = {
-      type: 'form',
-      template: 'riwayat'
+      type: 'riwayat'
     };
 
     // ============================================================
-    // JANGAN UBAH DI BAWAH INI (kecuali Anda tahu caranya)
+    // BUILD URL TARGET
     // ============================================================
+    function buildUrl() {
+      let url = APPS_SCRIPT_URL + '?path=riwayat';
+
+      // Forward parameter tambahan dari URL (misal ?edit=xxx atau ?filter=xxx)
+      const params = new URLSearchParams(window.location.search);
+      params.forEach(function(value, key) {
+        if (key !== 'path') {
+          url += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(value);
+        }
+      });
+
+      return url;
+    }
 
     const iframe = document.getElementById('app');
     const loading = document.getElementById('loading');
@@ -238,58 +151,28 @@
     let fallbackTimer;
     let errorTimer;
 
-    // Bangun URL target
-    function buildUrl() {
-      let url = APPS_SCRIPT_URL;
-
-      if (PAGE.type === 'riwayat') {
-        url += '?path=riwayat';
-      } else {
-        url += '?path=app&template=' + encodeURIComponent(PAGE.template);
-      }
-
-      // Forward parameter dari URL halaman ini (kalau ada)
-      // Misal: https://username.github.io/siplah-translok/?edit=xxx
-      const params = new URLSearchParams(window.location.search);
-      params.forEach(function(value, key) {
-        if (key !== 'path' && key !== 'template') {
-          url += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(value);
-        }
-      });
-
-      return url;
-    }
-
     function loadApp() {
       const targetUrl = buildUrl();
+      console.log('[SIPLAH Riwayat] Loading:', targetUrl);
 
-      console.log('[SIPLAH] Loading:', targetUrl);
-
-      // Reset
       loaded = false;
       loading.classList.remove('hidden');
       loading.style.display = 'flex';
       error.classList.remove('show');
       iframe.classList.remove('loaded');
+      fallback.style.display = 'none';
 
-      // Set link fallback
       manualLink.href = targetUrl;
-
-      // Load
       iframe.src = targetUrl;
 
-      // Timer 10 detik: tampilkan link fallback
       clearTimeout(fallbackTimer);
       fallbackTimer = setTimeout(function() {
         if (!loaded) fallback.style.display = 'block';
       }, 10000);
 
-      // Timer 25 detik: tampilkan error
       clearTimeout(errorTimer);
       errorTimer = setTimeout(function() {
-        if (!loaded) {
-          showError('Koneksi lambat atau server tidak merespons. Silakan coba lagi.');
-        }
+        if (!loaded) showError('Koneksi lambat atau server tidak merespons. Silakan coba lagi.');
       }, 25000);
     }
 
@@ -299,41 +182,26 @@
       if (msg) errorMsg.textContent = msg;
     }
 
-    function reloadApp() {
-      loadApp();
-    }
+    function reloadApp() { loadApp(); }
 
-    // Event: iframe loaded
     iframe.addEventListener('load', function() {
       try {
-        // Kalau masih about:blank, berarti belum benar-benar load
-        if (iframe.contentWindow && iframe.contentWindow.location.href === 'about:blank') {
-          return;
-        }
-      } catch (e) {
-        // Cross-origin → berarti sudah load halaman eksternal (Apps Script)
-        // Ini normal, lanjutkan
-      }
+        if (iframe.contentWindow && iframe.contentWindow.location.href === 'about:blank') return;
+      } catch (e) { /* cross-origin, berarti sudah load */ }
 
       loaded = true;
       clearTimeout(fallbackTimer);
       clearTimeout(errorTimer);
 
-      // Fade out loading
       loading.classList.add('hidden');
-      setTimeout(function() {
-        loading.style.display = 'none';
-      }, 300);
-
-      // Fade in iframe
+      setTimeout(function() { loading.style.display = 'none'; }, 300);
       iframe.classList.add('loaded');
     });
 
     iframe.addEventListener('error', function() {
-      if (!loaded) showError('Gagal memuat halaman. Periksa koneksi internet Anda.');
+      if (!loaded) showError('Gagal memuat halaman.');
     });
 
-    // Auto-load saat halaman siap
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', loadApp);
     } else {
